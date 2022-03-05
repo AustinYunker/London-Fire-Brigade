@@ -40,7 +40,7 @@ def create_month(df):
     params:
         df - dataframe with necessary columns
     """
-    df["Month"] = df["timestamp_of_call"].dt.month
+    df["Month"] = df["timestamp_of_call"].dt.month.astype(np.str)
     
 def create_hour(df):
     """
@@ -49,7 +49,7 @@ def create_hour(df):
     params:
         df - dataframe with necessary columns
     """
-    df["Hour"] = df["timestamp_of_call"].dt.hour
+    df["Hour"] = df["timestamp_of_call"].dt.hour.astype(np.str)
     
 def merge_property(df):
     """
@@ -88,6 +88,7 @@ def property_type_rank(df):
     
     #Join the london data with the pt_df to match the property type rankings
     df = pd.merge(left = df, right = pt_grp[["property_type", "pt_rank"]], left_on = "property_type", right_on="property_type")
+    df["pt_rank"] = df["pt_rank"].astype(np.str)
     
     return df
 
@@ -135,6 +136,7 @@ def ward_name_rank(df):
     
     #Join the london data with the pt_df to match the property type rankings
     df = pd.merge(left = df, right = wn_grp[["ward_name", "wn_rank"]], left_on = "ward_name", right_on="ward_name")
+    df["wn_rank"] = df["wn_rank"].astype(np.str)
     
     return df
 
@@ -197,6 +199,7 @@ def station_rank(df):
     #Create a new variable that ranks the values based on their percentage
     stat_grp["stat_rank"] = (stat_grp["mean"] / 10).astype(np.int)
     df = pd.merge(left = df, right = stat_grp[["first_station", "stat_rank"]], left_on = "first_station", right_on="first_station")
+    df["stat_rank"] = df["stat_rank"].astype(np.str)
     return df
 
 def arriving_time(df):
@@ -228,6 +231,7 @@ def station_pumps(df):
     df["station_pumps"] = df["station_pumps"].astype(np.float64)
     df["station_pumps"] = df.groupby("first_station")["station_pumps"].\
                                                 transform(lambda grp: grp.fillna(np.mean(grp)))
+    df["station_pumps"] = (np.round(df["station_pumps"])).astype(str)
     return df
     
 def pumps_attending(df):
@@ -242,6 +246,7 @@ def pumps_attending(df):
     df["pumps_attending"] = df["pumps_attending"].astype(np.float64)
     df["pumps_attending"] = df.groupby("first_station")["pumps_attending"].\
                                                 transform(lambda grp: grp.fillna(np.mean(grp)))
+    df["pumps_attending"] = (np.round(df["pumps_attending"])).astype(str)
     return df
     
 def clean_london(df, add_emergencies=True, make_month=True, make_hour=True, clean_property=True, rank_property_type=True,
