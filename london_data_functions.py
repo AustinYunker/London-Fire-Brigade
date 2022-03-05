@@ -302,7 +302,7 @@ def clean_london(df, add_emergencies=True, make_month=True, make_hour=True, clea
         df = pumps_attending(df)
         if verbose: print("Sucessfully Cleaned Number of Pumps Attending!")
             
-    df = df.drop(["incident_number", "timestamp_of_call", "property_type", "ward_name",
+    df = df.drop(["incident_number", "incident_group", "timestamp_of_call", "property_type", "ward_name",
              "first_station"], axis = 1, inplace = False)
     if verbose: print("Sucessfully Dropped Unecessary Columns!")
     
