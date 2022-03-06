@@ -123,7 +123,7 @@ def station_pumps(df):
     df["station_pumps"] = df["station_pumps"].astype(np.float64)
     df["station_pumps"] = df.groupby("borough_name")["station_pumps"].\
                                                 transform(lambda grp: grp.fillna(np.mean(grp)))
-    df["station_pumps"] = df["station_pumps"].astype(np.str)
+    df["station_pumps"] = np.round(df["station_pumps"]).astype(np.str)
     return df
     
 def pumps_attending(df):
@@ -138,7 +138,7 @@ def pumps_attending(df):
     df["pumps_attending"] = df["pumps_attending"].astype(np.float64)
     df["pumps_attending"] = df.groupby("borough_name")["pumps_attending"].\
                                                 transform(lambda grp: grp.fillna(np.mean(grp)))
-    df["pumps_attending"] = df["pumps_attending"].astype(np.str).astype(np.str)
+    df["pumps_attending"] = np.round(df["pumps_attending"]).astype(np.str).astype(np.str)
     return df
     
 def clean_london(df, add_emergencies=True, make_month=True, make_hour=True, clean_property=True,
